@@ -51,4 +51,9 @@ const PublicationsQuery = gql`
   }
 `;
 
-export default graphql(PublicationsQuery)(PublicationList);
+export default graphql(PublicationsQuery, {
+  options: {
+    fetchPolicy: 'cache-and-network',
+    pollInterval: 20000
+  }
+})(PublicationList);

@@ -12,19 +12,19 @@ class LoginForm extends React.Component {
     };
   }
 
-  _onEmailChange = (event) => {
+  _onEmailChange = event => {
     this.setState({ email: event.target.value });
-  }
+  };
 
-  _onPasswordChange = (event) => {
+  _onPasswordChange = event => {
     this.setState({ password: event.target.value });
-  }
+  };
 
   _onLogin = () => {
     const { email, password } = this.state;
 
     this.props.login(email, password);
-  }
+  };
 
   render() {
     return (
@@ -41,7 +41,7 @@ class LoginForm extends React.Component {
   }
 }
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = dispatch => {
   return {
     login: (email, password) => dispatch(login({ email, password }))
   };

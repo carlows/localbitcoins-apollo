@@ -66,7 +66,7 @@ export function setupStore(onStorePersisted: () => mixed) {
       applyMiddleware(req, next) {
         const { user } = store.getState();
         const token = user.token;
-        const headers = token ? { token: `JWT ${token}` } : {};
+        const headers = token ? { Authorization: `JWT ${token}` } : {};
 
         req.options.headers = _.extend({}, req.options.headers, headers);
         next();
