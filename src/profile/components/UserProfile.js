@@ -14,7 +14,11 @@ type State = void;
 /**
  * UserProfileContainer component
  */
-class UserProfileContainer extends React.Component<DefaultProps, Props, State> {
+export class UserProfileContainer extends React.Component<
+  DefaultProps,
+  Props,
+  State
+> {
   render() {
     const userProps = this.props.current_user;
     return <UserProfile {...userProps} />;
@@ -45,16 +49,16 @@ class UserProfile extends React.PureComponent<
 
     return (
       <div>
-        <h2>
+        <h2 className="profile-username">
           {first_name} {last_name}
         </h2>
-        <p>
+        <p className="profile-email">
           {email}
         </p>
-        <p>
+        <p className="profile-amount">
           Balance USD: ${account_balance_USD}
         </p>
-        <p>
+        <p className="profile-amount">
           Balance BTC: {account_balance_BTC}
         </p>
       </div>
@@ -62,7 +66,7 @@ class UserProfile extends React.PureComponent<
   }
 }
 
-const UserProfileQuery = gql`
+export const UserProfileQuery = gql`
   query userProfile {
     current_user {
       id
@@ -81,7 +85,7 @@ const UserProfileQuery = gql`
  */
 export default graphql(UserProfileQuery, {
   options: {
-    fetchPolicy: 'cache-and-network'
+    fetchPolicy: 'cache'
   },
   props: ({ data: { loading, current_user } }) => ({
     current_user,

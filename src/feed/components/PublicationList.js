@@ -5,6 +5,13 @@ import { Publication } from '../components';
 import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
 
+type DefaultProps = void;
+type Props = {
+  submit: Function,
+  data: Object
+};
+type State = {};
+
 class PublicationList extends React.Component {
   render() {
     // Loading will be true when the request is on the fly
@@ -35,7 +42,7 @@ class PublicationList extends React.Component {
   }
 }
 
-const PublicationsQuery = gql`
+export const PublicationsQuery = gql`
   query allPublications {
     publications(first: 100) {
       edges {
@@ -52,8 +59,8 @@ const PublicationsQuery = gql`
 `;
 
 export default graphql(PublicationsQuery, {
-  options: {
+  options: () => ({
     fetchPolicy: 'cache-and-network',
     pollInterval: 20000
-  }
+  })
 })(PublicationList);

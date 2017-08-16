@@ -14,7 +14,7 @@ type State = void;
 class Profile extends React.Component<DefaultProps, Props, State> {
   render() {
     return (
-      <div>
+      <div id="profile">
         <h1>Profile</h1>
         <UserProfile />
         <br />
