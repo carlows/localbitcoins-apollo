@@ -85,7 +85,7 @@ export const UserProfileQuery = gql`
  */
 export default graphql(UserProfileQuery, {
   options: {
-    fetchPolicy: 'cache'
+    fetchPolicy: 'cache-and-network'
   },
   props: ({ data: { loading, current_user } }) => ({
     current_user,

@@ -44,7 +44,7 @@ class PublicationList extends React.Component {
 
 export const PublicationsQuery = gql`
   query allPublications {
-    publications(first: 100) {
+    publications {
       edges {
         node {
           id
@@ -60,7 +60,7 @@ export const PublicationsQuery = gql`
 
 export default graphql(PublicationsQuery, {
   options: () => ({
-    fetchPolicy: 'cache-and-network',
+    fetchPolicy: 'cache',
     pollInterval: 20000
   })
 })(PublicationList);

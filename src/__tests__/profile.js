@@ -10,11 +10,11 @@ import Login from '../profile/views/Profile.js';
 import App from '../App.js';
 import { ApolloProvider } from 'react-apollo';
 import { push } from 'react-router-redux';
-import { MockedProvider } from 'react-apollo/test-utils';
+import { MockedProvider, mockNetworkInterface } from 'react-apollo/test-utils';
 import { UserProfileQuery } from '../profile/components/UserProfile';
 import { PublicationsQuery } from '../feed/components/PublicationList';
 import { UserMock, PublicationMock } from '../__mocks__/data';
-import { addTypenameToDocument } from 'apollo-client';
+import ApolloClient, { addTypenameToDocument } from 'apollo-client';
 
 // Definition of MockedProvider https://github.com/apollographql/react-apollo/blob/7308d200681debf1948efda95570f57dc3cb3a69/src/test-utils.tsx
 // Example of mockNetworkInterface https://github.com/L1fescape/react-apollo/blob/8383115a2e4924402e3e802f82642b82a39abf87/test/react-web/client/graphql/queries/index.test.tsx
@@ -24,7 +24,7 @@ const flushAllPromises = () => new Promise(resolve => setImmediate(resolve));
 const queryMocks = [
   {
     request: {
-      query: addTypenameToDocument(UserProfileQuery),
+      query: UserProfileQuery,
       variables: {}
     },
     result: {
@@ -35,17 +35,16 @@ const queryMocks = [
   },
   {
     request: {
-      query: addTypenameToDocument(PublicationsQuery),
-      variables: {}
+      query: PublicationsQuery
     },
     result: {
       data: {
         publications: {
-          edges: {
-            node: PublicationMock,
-            __typename: 'PublicationEdge'
-          },
-          __typename: 'PublicationConnection'
+          edges: [
+            {
+              node: PublicationMock
+            }
+          ]
         }
       }
     }
@@ -53,13 +52,16 @@ const queryMocks = [
 ];
 
 const setupTests = () => {
+  const networkInterface = mockNetworkInterface.apply(null, queryMocks);
+  const client = new ApolloClient({ networkInterface, addTypename: false });
+
   const store = setupStore(jest.fn());
   const wrapper = mount(
-    <MockedProvider mocks={queryMocks} store={store}>
+    <ApolloProvider client={client} store={store}>
       <MemoryRouter initialEntries={['/profile']} initialIndex={1}>
         <App />
       </MemoryRouter>
-    </MockedProvider>
+    </ApolloProvider>
   );
 
   store.dispatch({
@@ -92,18 +94,17 @@ describe('Profile feature', () => {
     expect(wrapper.find('#feed')).toBeDefined();
   });
 
-  test('Profile view should render User details', done => {
+  test('Profile view should render User details', async () => {
     const { wrapper, store } = setupTests();
 
-    const btn = wrapper.find("a[href='/profile']");
+    // const btn = wrapper.find("a[href='/profile']");
+    //
+    // btn.simulate('click', { button: 0 });
 
-    btn.simulate('click', { button: 0 });
+    await flushAllPromises();
 
-    // await flushAllPromises();
-    setTimeout(() => {
-      const tag = wrapper.find('.profile-username');
-      expect(tag.text()).toEqual('Foo Bar');
-      done();
-    }, 10);
+    console.log(wrapper.debug());
+    // const tag = wrapper.find('.profile-username');
+    // expect(tag.text()).toEqual('Foo Bar');
   });
 });

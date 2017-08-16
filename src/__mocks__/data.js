@@ -1,5 +1,4 @@
 export const UserMock = {
-  __typename: 'User',
   id: 123,
   first_name: 'Foo',
   last_name: 'Bar',
@@ -13,6 +12,5 @@ export const PublicationMock = {
   title: 'Hello!',
   description: 'Hello World!',
   amount: 100,
-  currency: 'BTC',
-  __typename: 'Publication'
+  currency: 'BTC'
 };
