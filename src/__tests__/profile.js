@@ -94,17 +94,18 @@ describe('Profile feature', () => {
     expect(wrapper.find('#feed')).toBeDefined();
   });
 
-  test('Profile view should render User details', async () => {
+  test('Profile view should render User details', done => {
     const { wrapper, store } = setupTests();
 
-    // const btn = wrapper.find("a[href='/profile']");
-    //
-    // btn.simulate('click', { button: 0 });
+    const btn = wrapper.find("a[href='/profile']");
 
-    await flushAllPromises();
+    btn.simulate('click', { button: 0 });
 
-    console.log(wrapper.debug());
-    // const tag = wrapper.find('.profile-username');
-    // expect(tag.text()).toEqual('Foo Bar');
+    setTimeout(() => {
+      const tag = wrapper.find('.profile-username');
+      console.log(tag.debug());
+      expect(tag.text()).toEqual('Foo Bar');
+      done();
+    }, 10);
   });
 });
