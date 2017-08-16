@@ -13,7 +13,7 @@ import _ from 'lodash';
 
 // Setup Apollo client
 const networkInterface = createNetworkInterface({
-  uri: process.env.REACT_APP_API_URL
+  uri: process.env.REACT_APP_API_URL || 'http://localhost:4000'
 });
 
 export const apolloClient = new ApolloClient({

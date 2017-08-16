@@ -60,7 +60,7 @@ export const PublicationsQuery = gql`
 
 export default graphql(PublicationsQuery, {
   options: () => ({
-    fetchPolicy: 'cache',
+    fetchPolicy: 'cache-and-network',
     pollInterval: 20000
   })
 })(PublicationList);
